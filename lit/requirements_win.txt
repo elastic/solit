@@ -1,0 +1,3 @@
+-r requirements.txt
+# anything below this line is a Windows-only requirement
+pypiwin32==219

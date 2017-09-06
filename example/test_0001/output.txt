@@ -1,0 +1,25 @@
+{
+  "hits" : [
+    {
+        "logLevel" : "DEBUG",
+        "logMessage" : "Created Used reservation for 85b7510a-076d-4c76-807a-d195dc8d41fe@example.com to Maku at 8/24/2017 1:49:28 PM -04:00 entering without a reservation. The reservation was for 8/24/2017 1:49:00 PM -04:00 with reservation index   ",
+        "operationId" : "Loq.Qsmart.Server.Model.Session",
+        "type" : "test_0001",
+        "message" : "2017-08-24 13:49:28.9875|22042|DEBUG|Loq.Qsmart.Server.Model.Session|8208|141|Created Used reservation for 85b7510a-076d-4c76-807a-d195dc8d41fe@example.com to Maku at 8/24/2017 1:49:28 PM -04:00 entering without a reservation. The reservation was for 8/24/2017 1:49:00 PM -04:00 with reservation index ||"
+    },
+    {
+        "logLevel" : "INFO",
+        "logMessage" : "At 8/24/2017 1:49:28 PM -04:00, fdcde4e6-d261-4f8a-a8f1-7f40943c74ba@example.com used their reservation for 1 on Honu at 8/24/2017 1:49:00 PM -04:00.  ",
+        "operationId" : "Loq.Qsmart.Server.WebApi.Controllers.Attendant.AttendantServiceController",
+        "type" : "test_0001",
+        "message" : "2017-08-24 13:49:29.1160|29586|INFO|Loq.Qsmart.Server.WebApi.Controllers.Attendant.AttendantServiceController|8592|66|At 8/24/2017 1:49:28 PM -04:00, fdcde4e6-d261-4f8a-a8f1-7f40943c74ba@example.com used their reservation for 1 on Honu at 8/24/2017 1:49:00 PM -04:00.||"
+    },
+    {
+        "logLevel" : "DEBUG",
+        "logMessage" : "Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com  ",
+        "operationId" : "Loq.Qsmart.Server.WebApi.Controllers.Attendant.AttendantServiceController",
+        "type" : "test_0001",
+        "message" : "2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Qsmart.Server.WebApi.Controllers.Attendant.AttendantServiceController|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"
+    }
+  ]
+}

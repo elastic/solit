@@ -1,0 +1,8 @@
+test_0001:
+  input: test_0001/input.log
+  output: test_0001/output.txt
+  query: test_0001/query.json
+  pipeline: config/conf.d/test_0001/filter.conf
+  output_conf: config/conf.d/output.conf
+  config: config/logstash.yml
+  template: elasticsearch/templates/template_name.json

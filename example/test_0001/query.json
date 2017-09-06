@@ -1,0 +1,9 @@
+{
+    "sort": [
+        {"@timestamp": {"order": "asc"}}
+    ],
+    "_source":["logMessage", "type", "message", "logLevel", "operationId"],
+    "query":{
+        "match_all":{}
+    }
+}

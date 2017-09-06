@@ -1,0 +1,4 @@
+docker==2.5.1
+elasticsearch==5.4.0
+pyyaml==3.11
+pytest==3.2.1

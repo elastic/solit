@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+import argparse
+
+import pytest
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-p', '--testpath',
+        action='store',
+        default=None,
+        help='Path where the logstash_tests.yml is'
+    )
+    parser.add_argument(
+        '-n', '--testname',
+        action='store',
+        default=None,
+        help='Name of the test to run (Default to None will run all tests)'
+    )
+    args = parser.parse_args()
+    pytest_args = []
+    if args.testpath:
+        pytest_args.append('--testpath={}'.format(args.testpath))
+    if args.testname:
+        pytest_args.append('--testname={}'.format(args.testname))
+
+    pytest.main(pytest_args)

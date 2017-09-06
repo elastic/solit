@@ -1,0 +1,6 @@
+path.config: /etc/logstash/conf.d/**/*.conf
+http.host: 0.0.0.0
+http.port: 9600-9610
+xpack.monitoring.elasticsearch.url: "http://${MONITORING_HOST}"
+xpack.monitoring.elasticsearch.username: "${MONITORING_USER}"
+xpack.monitoring.elasticsearch.password: "${MONITORING_PASSWORD}"

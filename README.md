@@ -53,6 +53,7 @@ Easiest way is to install via pip:
 ```
 pip install lit
 ```
+> Note: Not avail from PyPI yet, so only install from source.
 
 Install from source:
 

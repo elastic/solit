@@ -1,9 +1,9 @@
 # Logstash Integration Test
 
-`litaf` is a tool for doing end to end integration tests of your logstash and
+`lit` is a tool for doing end to end integration tests of your logstash and
 elasticsearch configs.
 
-`litaf` can be used hooked up to your CI system of choice and can be used
+`lit` can be used hooked up to your CI system of choice and can be used
 to automatically test configuration changes to Logstash/ES to keep regressions from
 causing downtime or breaking your Elastic Stack pipelines.
 
@@ -14,7 +14,7 @@ causing downtime or breaking your Elastic Stack pipelines.
 
 ### Docker for Mac
 
-A think of note for Docker for Mac users, `litaf` needs access to mount some files into a
+A think of note for Docker for Mac users, `lit` needs access to mount some files into a
 docker container for running the tests. By default Docker for Mac does not make this
 folder available for mounting.
 
@@ -51,13 +51,13 @@ Please look at those.
 Easiest way is to install via pip:
 
 ```
-pip install litaf
+pip install lit
 ```
 
 Install from source:
 
 1. Clone this repo
-2. run `python setup.py install` from the `litaf` directory
+2. run `python setup.py install` from the `lit` directory
 
 > the first time you run this, it will take some time to download the images needed
 > for running the tests but each time afterwards will be faster.
@@ -67,11 +67,11 @@ Install from source:
 See the `examples` directory for examples on how to setup your tests and your
 repo for logstash/elastic serach config files
 
-From the `examples` directory just run `litaf`
+From the `examples` directory just run `lit`
 
 ## Lingering Containers
 
-`litaf` should be able to clean up after itself, but if for some reasong it crashes and
+`lit` should be able to clean up after itself, but if for some reasong it crashes and
 doesn't properly clean up. And the tests are failing to run. Just run `docker system prune`
 to have Docker cleanup any lingering containers, lingering networks, etc...
 

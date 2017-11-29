@@ -1,10 +1,13 @@
 #!/usr/bin/env python
+import os
 import argparse
 
 import pytest
+import lit
 
 
 if __name__ == "__main__":
+    testfile = os.path.join(os.path.dirname(lit.__file__), "test_logstash.py")
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '-p', '--testpath',
@@ -19,7 +22,7 @@ if __name__ == "__main__":
         help='Name of the test to run (Default to None will run all tests)'
     )
     args = parser.parse_args()
-    pytest_args = []
+    pytest_args = [testfile]
     if args.testpath:
         pytest_args.append('--testpath={}'.format(args.testpath))
     if args.testname:

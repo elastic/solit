@@ -99,7 +99,7 @@ class TestClass(object):
 
     def test_logstash_config(self, testname, testpath):
         if testpath is None:
-            testpath = os.path.dirname(__file__)
+            testpath = os.getcwd()
 
         with open(os.path.join(testpath, "logstash_tests.yml"), "r") as stream:
             test_data = load(stream)

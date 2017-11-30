@@ -38,7 +38,7 @@ def remove_network(network_name, docker_base_url="unix://var/run/docker.sock"):
     client = docker.APIClient(base_url=docker_base_url)
     return client.remove_network(network_name)
 
-class Network():
+class Network(object):
     def __init__(self,
                  docker_base_url="unix://var/run/docker.sock",
                  network_name=None):
@@ -50,7 +50,7 @@ class Network():
         return self.client.create_network(self.network_name)
 
 
-class Container():
+class Container(object):
     def __init__(self,
                  docker_base_url="unix://var/run/docker.sock",
                  image_name=None,
@@ -139,7 +139,7 @@ class LogstashContainer(Container):
                  image_name="docker.elastic.co/logstash/logstash",
                  image_tag="5.5.1",
                  name="logstash",
-                 command="/usr/local/bin/run.sh",
+                 command=None,
                  environment=None,
                  volumes=None):
         super(LogstashContainer, self).__init__(

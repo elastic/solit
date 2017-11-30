@@ -9,41 +9,15 @@ causing downtime or breaking your Elastic Stack pipelines.
 
 ## Requirements
 
-* Docker (only tested on 17.11.0-ce) but any "modern" version should work
+* Docker 17.09.0-ce+,  but any "modern" version should work
 * Python 3 (should work with python 2 but not tested yet)
-
-### Docker for Mac
-
-A think of note for Docker for Mac users, `lit` needs access to mount some files into a
-docker container for running the tests. By default Docker for Mac does not make this
-folder available for mounting.
-
-To findout what directory you need to give Docker access to:
-
-1. Open a new terminal window
-2. run `python` or `python3` if your default python is python 2.
-3. run the following in the python shell:
-
-```python
-import lit
-import os
-
-print(os.path.dirname(lit.__file__))
-```
-
-This will print the location of your site-packages. Include this directory in
-the File Share section of your Docker for Mac properties:
-
-![File Sharing Preferences](/screenshot.png?raw=true "File Sharing Pref")
 
 
 ### Docker for Windows
 
-The Docker for Windows is a bit trickerier and you have to do the same process for
-Mac with adding directorys for mouting. Though you also have to enable mounting the
-Drive in general.
+The Docker for Windows is a bit trickerier and you have to setup File Sharing (volume mounts).
 
-There are a few other requirements in the `requirements-win.txt` file.
+There are also few other requirements in the `requirements-win.txt` file.
 Please look at those.
 
 ## Installation
@@ -60,7 +34,7 @@ Install from source:
 1. Clone this repo
 2. run `python setup.py install` from the `lit` directory
 
-> the first time you run this, it will take some time to download the images needed
+> **NOTE**: the first time you run this, it will take some time to download the images needed
 > for running the tests but each time afterwards will be faster.
 
 ## Usage

@@ -21,6 +21,8 @@ ELASTIC_USER = "elastic"
 ELASTIC_PASS = "changeme"
 NETWORK_NAME = "lsnet"
 
+COMMAND = 'bash -c "/usr/share/logstash/bin/logstash -e \\"input{stdin{codec=>json_lines}}\\" < /data/input.log"'
+
 Containers = namedtuple('Containers', ['elastic_container', 'logstash_container'])
 
 
@@ -117,7 +119,7 @@ class TestClass(object):
                 os.path.join(testpath, data['input']),
                 os.path.join(testpath, data['pipeline']),
                 os.path.join(testpath, data['output_conf']),
-                data.get('command', 'run.sh'),
+                data.get('command', COMMAND),
                 os.path.join(testpath, data['query']),
                 os.path.join(testpath, data['output']),
                 os.path.join(testpath, data.get('template')),
@@ -140,9 +142,7 @@ class TestClass(object):
         -v `pwd`/logstash/config:/usr/share/logstash/config/
         -v `pwd`/example:/data
         -v `pwd`/logstash/pipeline:/usr/share/logstash/pipeline
-        -v `pwd`/logstash/run.sh:/tmp/run.sh
         docker.elastic.co/logstash/logstash:5.5.1
-        /tmp/run.sh
         """
         print("## Running: {}".format(test_name))
         es_client = Elasticsearch('http://localhost:9200', http_auth=(ELASTIC_USER, ELASTIC_PASS))
@@ -151,10 +151,10 @@ class TestClass(object):
             template_body = json.load(template_file)
         # load the elasticsearch template
         es_client.indices.put_template(name=test_name, body=template_body)
-
         Containers.logstash_container = LogstashContainer(
             image_name=IMAGES['logstash'].split(":")[0],
             image_tag=IMAGES['logstash'].split(":")[1],
+            command=COMMAND,
             environment={
                 "LS_SETTINGS_DIR": "/usr/share/logstash/config",
                 "MONITORING_HOST": "elasticsearch",
@@ -181,9 +181,6 @@ class TestClass(object):
                 },
                 construct_abs_path(output_conf): {
                     'bind': '/etc/logstash/conf.d/{}/output.conf'.format(test_name), 'mode': 'ro'
-                },
-                construct_abs_path(command): {
-                    'bind': '/usr/local/bin/run.sh', 'mode': 'ro'
                 },
             }
         )

@@ -10,7 +10,7 @@ causing downtime or breaking your Elastic Stack pipelines.
 ## Requirements
 
 * Docker 17.09.0-ce+,  but any "modern" version should work
-* Python 3 (should work with python 2 but not tested yet)
+* Python
 
 
 ### Docker for Windows

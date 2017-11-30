@@ -139,7 +139,7 @@ class LogstashContainer(Container):
                  image_name="docker.elastic.co/logstash/logstash",
                  image_tag="5.5.1",
                  name="logstash",
-                 command=None,
+                 command="/usr/local/bin/run.sh",
                  environment=None,
                  volumes=None):
         super(LogstashContainer, self).__init__(

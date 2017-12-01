@@ -7,7 +7,7 @@ from yaml import load
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import ConnectionError as ESConnectionError
 
-from lit.utils import (
+from solit.utils import (
     ElasticsearchContainer, LogstashContainer, construct_abs_path,
     pull_required_images, create_network, remove_network
 )

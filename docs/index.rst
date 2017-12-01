@@ -48,7 +48,8 @@ Setting up your Repository
 First thing, we should probably have our repository which holds our Logstash and Elasticsearch
 configs setup logically:
 
-.. ::
+.. code-block::
+
     repository_root
     ├── README.md
     ├── elasticsearch
@@ -102,7 +103,7 @@ Then block is the information for our test. We need to specify the location of o
 
 Now our repository should look a little more like:
 
-.. ::
+.. code-block::
 
     repository_root
     ├── README.md

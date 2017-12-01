@@ -26,12 +26,12 @@ Installation
 
 Easiest way is to install via pip:
 
-`pip install solit`
+:code:`pip install solit`
 
 Install from source:
 
 1. Clone this repo
-2. run `python setup.py install` from the `solit` directory
+2. Run :code:`python setup.py install` from the :code:`solit` directory
 
 
 Example Usage
@@ -62,11 +62,11 @@ configs setup logically:
     │   │       └── filter.conf
     │   └── logstash.yml
 
-In this example we have our repo root with two directories, `elasticsearch` and
-`logstash`. These two directories hold various configuration files related to each
+In this example we have our repo root with two directories, :code:`elasticsearch` and
+:code:`logstash`. These two directories hold various configuration files related to each
 service.
 
-The logstash directory is deisgned around the concept of having a single `output.conf` and
+The logstash directory is deisgned around the concept of having a single :code:`output.conf` and
 having multple directories holding the configuration for each type of data source we
 will be processing. AKA each pipeline.
 
@@ -76,7 +76,7 @@ gets indexed into.
 
 Next we want to add our tests. I'm adding the logstash tests to the root of the directry.
 
-First we need to add a `logstash_tests.yml` file. This file holds all the information about
+First we need to add a :code:`logstash_tests.yml` file. This file holds all the information about
 all our tests.
 
 .. code-block:: yaml
@@ -90,16 +90,16 @@ all our tests.
       config: logstash/logstash.yml
       template: elasticsearch/templates/template_name.json
 
-The first line is our test name, `test_0001`.
+The first line is our test name, :code:`test_0001`.
 Then block is the information for our test. We need to specify the location of our
 
-1. input - the mock data to be processed by logstash
-2. output - the desired output we well use to verify the correctness of our test.
-3. query - the query we will use to query the data out of Elasticsearch to verify the output.
-4. pipeline - the relative path (to the logstash_tests.yml) to the logstash conf pipeline we want to test.
-5. output_conf - the output conf we want logstash to use when indexing data into Elasticsearch.
-6. config - the config file we want logstash to use.
-7. template - the template we want Elasticsearch to use when this data get indexed into ES.
+1.:code:`input` - the mock data to be processed by logstash
+2.:code:`output` - the desired output we well use to verify the correctness of our test.
+3.:code:`query` - the query we will use to query the data out of Elasticsearch to verify the output.
+4.:code:`pipeline` - the relative path (to the logstash_tests.yml) to the logstash conf pipeline we want to test.
+5.:code:`output_conf` - the output conf we want logstash to use when indexing data into Elasticsearch.
+6.:code:`config` - the config file we want logstash to use.
+7.:code:`template` - the template we want Elasticsearch to use when this data get indexed into ES.
 
 Now our repository should look a little more like:
 
@@ -127,12 +127,12 @@ Writing your test
 -----------------
 
 Now to write a test we need to have some data for Logstash to process. It is important
-to note that `solit` is configured by default to process `json_lines` as the input data
+to note that :code:`solit` is configured by default to process :code:`json_lines` as the input data
 format.
 
 Why did I make this assumption? I've found that most people are using filebeats to
 send data to Logstash for data enrichment. But if you want to change the way Logstash a
-acceps input data you can overide the `command` in the `.solit.yml` file. But beweare
+acceps input data you can overide the :code:`command` in the :code:`.solit.yml` file. But beweare
 of dragons when going down this path. It can be difficult to get formatted correctly.
 
 A very simple input.log would look like this:
@@ -149,7 +149,7 @@ A more advanced message might look like this:
 
     {"type":"message_type","message":"2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"}
 
-Here we have a `type` and a `message`. And our logstash config is specifically designed
+Here we have a :code:`type` and a :code:`message`. And our logstash config is specifically designed
 to process a message body like this.
 
 Now we want to write a query to get data out of Elasticsearch:
@@ -170,14 +170,14 @@ This query is designed to get the data back in ascending order on the timestamp 
 This is to ensure the data coming back from elasticsearch is in an expected order.
 
 Next we only want to return the fields which are important to the test. In this example
-those fields are `logMessage`, `type`, `message`, `logLevel` and `operationId`.
+those fields are :code:`logMessage`, :code:`type`, :code:`message`, :code:`logLevel` and :code:`operationId`.
 
 Finally we want to get back ALL the documents of this index.
 
 After we have our query and our input source we need to create an output so we can verify
 the results from our query match a desired output.
 
-Our output file is a json file listing all the `hits` we expect to see:
+Our output file is a json file listing all the :code:`hits` we expect to see:
 
 .. code-block:: json
 
@@ -203,7 +203,7 @@ Running your tests
 
 Now we want to run our tests.
 
-First we need to setup the  :code:`.solit.yml` file.
+First we need to setup the :code:`.solit.yml` file.
 
 This file is needed for telling solit what docker images to use for logstash and elasticsearch.
 
@@ -221,7 +221,7 @@ Now we can run our tests::
     solit
 
 This command will run all our tests. Be warned that the first time you run the tests
-`solit` has to download the docker images so it can take a while before the tests run.
+:code:`solit` has to download the docker images so it can take a while before the tests run.
 
 If you want to run only one test you can do so by specifying the test name::
 

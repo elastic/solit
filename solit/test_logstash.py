@@ -13,15 +13,26 @@ from solit.utils import (
 )
 
 
-IMAGES = {
-    "logstash": "docker.elastic.co/logstash/logstash:5.5.1",
-    "elasticsearch": "docker.elastic.co/elasticsearch/elasticsearch:5.5.1",
-}
-ELASTIC_USER = "elastic"
-ELASTIC_PASS = "changeme"
-NETWORK_NAME = "lsnet"
+def _get_config():
+    COMMAND = 'bash -c "/usr/share/logstash/bin/logstash -e \\"input{stdin{codec=>json_lines}}\\" < /data/input.log"'
 
-COMMAND = 'bash -c "/usr/share/logstash/bin/logstash -e \\"input{stdin{codec=>json_lines}}\\" < /data/input.log"'
+    with open('.solit.yml') as stream:
+        config = load(stream)
+
+    CONFIG = {
+        "images": {
+            "logstash": config.get("logstash", "docker.elastic.co/logstash/logstash:5.5.1"),
+            "elasticsearch": config.get("elasticsearch", "docker.elastic.co/elasticsearch/elasticsearch:5.5.1"),
+        },
+        "elastic_user": config.get("elastic_user", "elastic"),
+        "elastic_pass": config.get("elastic_pass", "changeme"),
+        "network_name": config.get("network_name", "lsnet"),
+        "command": config.get("command", COMMAND)
+    }
+    return CONFIG
+
+
+CONFIG = _get_config()
 
 Containers = namedtuple('Containers', ['elastic_container', 'logstash_container'])
 
@@ -51,18 +62,18 @@ class TestClass(object):
         When Elasticsearch is up and running we can start running the tests
         """
         # Next Pull images needed for the test
-        pull_required_images()
-        network = create_network(NETWORK_NAME)
+        pull_required_images(CONFIG.get("images"))
+        network = create_network(CONFIG.get('network_name'))
         Containers.elastic_container = ElasticsearchContainer(
-            image_name=IMAGES['elasticsearch'].split(":")[0],
-            image_tag=IMAGES['elasticsearch'].split(":")[1]
+            image_name=CONFIG['images']['elasticsearch'].split(":")[0],
+            image_tag=CONFIG['images']['elasticsearch'].split(":")[1]
         )
-        Containers.elastic_container.connect_container_to_network(NETWORK_NAME)
+        Containers.elastic_container.connect_container_to_network(CONFIG.get('network_name'))
         Containers.elastic_container.start()
         # create an Elasticsearch instance to check for alive-ness
         es_client = Elasticsearch(
             'http://localhost:9200',
-            http_auth=(ELASTIC_USER, ELASTIC_PASS)
+            http_auth=(CONFIG['elastic_user'], CONFIG['elastic_pass'])
         )
         resp = {}
         while not resp.get('name', False):
@@ -86,7 +97,7 @@ class TestClass(object):
         Containers.elastic_container.cleanup()
         Containers.logstash_container.stop()
         Containers.logstash_container.cleanup()
-        remove_network(NETWORK_NAME)
+        remove_network(CONFIG['network_name'])
 
 
     @classmethod
@@ -119,7 +130,7 @@ class TestClass(object):
                 os.path.join(testpath, data['input']),
                 os.path.join(testpath, data['pipeline']),
                 os.path.join(testpath, data['output_conf']),
-                data.get('command', COMMAND),
+                data.get('command', CONFIG.get("command")),
                 os.path.join(testpath, data['query']),
                 os.path.join(testpath, data['output']),
                 os.path.join(testpath, data.get('template')),
@@ -130,7 +141,7 @@ class TestClass(object):
         Simple test to check for the aliveness of elasticsearch
         """
         print("Test elasticsearch is up")
-        es_client = Elasticsearch('http://localhost:9200', http_auth=(ELASTIC_USER, ELASTIC_PASS))
+        es_client = Elasticsearch('http://localhost:9200', http_auth=(CONFIG.get('elastic_user'), CONFIG.get('elastic_pass')))
         output = es_client.info()
         assert output['tagline'] == 'You Know, for Search'
 
@@ -138,32 +149,35 @@ class TestClass(object):
             self, test_name, config, test_input, pipeline,
             output_conf, command, query, output, template):
         """
-        docker run -it --network nbcu_esnet --rm
+        docker run -it --network lsnet --rm
         -v `pwd`/logstash/config:/usr/share/logstash/config/
         -v `pwd`/example:/data
         -v `pwd`/logstash/pipeline:/usr/share/logstash/pipeline
         docker.elastic.co/logstash/logstash:5.5.1
         """
         print("## Running: {}".format(test_name))
-        es_client = Elasticsearch('http://localhost:9200', http_auth=(ELASTIC_USER, ELASTIC_PASS))
+        es_client = Elasticsearch(
+            'http://localhost:9200',
+            http_auth=(CONFIG['elastic_user'], CONFIG.get("elastic_pass"))
+        )
 
         with open(template) as template_file:
             template_body = json.load(template_file)
         # load the elasticsearch template
         es_client.indices.put_template(name=test_name, body=template_body)
         Containers.logstash_container = LogstashContainer(
-            image_name=IMAGES['logstash'].split(":")[0],
-            image_tag=IMAGES['logstash'].split(":")[1],
-            command=COMMAND,
+            image_name=CONFIG["images"]['logstash'].split(":")[0],
+            image_tag=CONFIG["images"]['logstash'].split(":")[1],
+            command=CONFIG.get('command'),
             environment={
                 "LS_SETTINGS_DIR": "/usr/share/logstash/config",
                 "MONITORING_HOST": "elasticsearch",
                 "MONITORING_PORT": "9200",
                 "MONITORING_USER": "logstash_system",
-                "MONITORING_PASSWORD": ELASTIC_PASS,
+                "MONITORING_PASSWORD": CONFIG.get('elastic_pass'),
                 "INDEX_NAME": test_name,
-                "LOGSTASH_USER": ELASTIC_USER,
-                "LOGSTASH_PASS": ELASTIC_PASS,
+                "LOGSTASH_USER": CONFIG.get('elastic_user'),
+                "LOGSTASH_PASS": CONFIG.get('elastic_pass'),
                 "ES_HOST_1": "elasticsearch:9200",
                 "ES_HOST_2": "elasticsearch:9200",
                 "ES_HOST_3": "elasticsearch:9200",
@@ -184,7 +198,7 @@ class TestClass(object):
                 },
             }
         )
-        Containers.logstash_container.connect_container_to_network(NETWORK_NAME)
+        Containers.logstash_container.connect_container_to_network(CONFIG.get('network_name'))
         print("\tStarting logstash container...")
         Containers.logstash_container.start()
         print("\tAwaiting results...")

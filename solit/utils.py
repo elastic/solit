@@ -4,17 +4,13 @@ import platform
 import docker
 
 
-IMAGES = {
-    "logstash": "docker.elastic.co/logstash/logstash:5.5.1",
-    "elasticsearch": "docker.elastic.co/elasticsearch/elasticsearch:5.5.1",
-}
-
-def pull_required_images():
+def pull_required_images(images):
     """
     Helper function to pull down required images used for testing.
     """
+
     client = docker.from_env()
-    for _, image  in IMAGES.items():
+    for _, image  in images.items():
         print("Pulling: {}".format(image))
         client.images.pull(image)
 

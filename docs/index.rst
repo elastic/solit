@@ -50,19 +50,18 @@ Setting up your Repository
 First thing, we should probably have our repository which holds our Logstash and Elasticsearch
 configs setup logically:
 
-```
-repository_root
-├── README.md
-├── elasticsearch
-│   └── templates
-│       └── template_name.json
-├── logstash
-│   ├── conf.d
-│   │   ├── output.conf
-│   │   └── test_0001
-│   │       └── filter.conf
-│   └── logstash.yml
-```
+::
+    repository_root
+    ├── README.md
+    ├── elasticsearch
+    │   └── templates
+    │       └── template_name.json
+    ├── logstash
+    │   ├── conf.d
+    │   │   ├── output.conf
+    │   │   └── test_0001
+    │   │       └── filter.conf
+    │   └── logstash.yml
 
 In this example we have our repo root with two directories, `elasticsearch` and
 `logstash`. These two directories hold various configuration files related to each
@@ -81,16 +80,15 @@ Next we want to add our tests. I'm adding the logstash tests to the root of the 
 First we need to add a `logstash_tests.yml` file. This file holds all the information about
 all our tests.
 
-```
-test_0001:
-  input: test_0001/input.log
-  output: test_0001/output.txt
-  query: test_0001/query.json
-  pipeline: logstash/conf.d/test_0001/filter.conf
-  output_conf: logstash/conf.d/output.conf
-  config: logstash/logstash.yml
-  template: elasticsearch/templates/template_name.json
-```
+::
+    test_0001:
+      input: test_0001/input.log
+      output: test_0001/output.txt
+      query: test_0001/query.json
+      pipeline: logstash/conf.d/test_0001/filter.conf
+      output_conf: logstash/conf.d/output.conf
+      config: logstash/logstash.yml
+      template: elasticsearch/templates/template_name.json
 
 The first line is our test name, `test_0001`.
 Then block is the information for our test. We need to specify the location of our
@@ -105,24 +103,23 @@ Then block is the information for our test. We need to specify the location of o
 
 Now our repository should look a little more like:
 
-```
-repository_root
-├── README.md
-├── elasticsearch
-│   └── templates
-│       └── template_name.json
-├── logstash
-│   ├── conf.d
-│   │   ├── output.conf
-│   │   └── test_0001
-│   │       └── filter.conf
-│   └── logstash.yml
-├── logstash_tests.yml
-├── test_0001
-│   ├── input.log
-│   ├── output.txt
-│   └── query.json
-```
+::
+    repository_root
+    ├── README.md
+    ├── elasticsearch
+    │   └── templates
+    │       └── template_name.json
+    ├── logstash
+    │   ├── conf.d
+    │   │   ├── output.conf
+    │   │   └── test_0001
+    │   │       └── filter.conf
+    │   └── logstash.yml
+    ├── logstash_tests.yml
+    ├── test_0001
+    │   ├── input.log
+    │   ├── output.txt
+    │   └── query.json
 
 
 Writing your test
@@ -139,34 +136,31 @@ of dragons when going down this path. It can be difficult to get formatted corre
 
 A very simple input.log would look like this:
 
-```
-{"message":"somemessage"}
-```
+::
+    {"message":"somemessage"}
 
 Logstash would take this json_line and start processing it with your pipeline filter.
 
 A more advanced message might look like this:
 
-```
-{"type":"message_type","message":"2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"}
-```
+::
+    {"type":"message_type","message":"2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"}
 
 Here we have a `type` and a `message`. And our logstash config is specifically designed
 to process a message body like this.
 
 Now we want to write a query to get data out of Elasticsearch:
 
-```
-{
-    "sort": [
-        {"@timestamp": {"order": "asc"}}
-    ],
-    "_source":["logMessage", "type", "message", "logLevel", "operationId"],
-    "query":{
-        "match_all":{}
+::
+    {
+        "sort": [
+            {"@timestamp": {"order": "asc"}}
+        ],
+        "_source":["logMessage", "type", "message", "logLevel", "operationId"],
+        "query":{
+            "match_all":{}
+        }
     }
-}
-```
 
 This query is designed to get the data back in ascending order on the timestamp field.
 This is to ensure the data coming back from elasticsearch is in an expected order.
@@ -181,18 +175,17 @@ the results from our query match a desired output.
 
 Our output file is a json file listing all the `hits` we expect to see:
 
-```
-{
-  "hits" : [
+::
     {
-        "logLevel" : "DEBUG",
-        "logMessage" : "Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com  ",
-        "operationId" : "Loq.Controllers.Attendant",
-        "type" : "message_type",
-        "message" : "2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"
+      "hits" : [
+        {
+            "logLevel" : "DEBUG",
+            "logMessage" : "Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com  ",
+            "operationId" : "Loq.Controllers.Attendant",
+            "type" : "message_type",
+            "message" : "2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"
+        }
     }
-}
-```
 
 With these 3 files our tests can execute. The input will be fed into Logstash and processed
 and finally indexed into Elasticsearch. After the logstash job has finished, `solit` will

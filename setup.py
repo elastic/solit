@@ -6,17 +6,17 @@ def readme():
         return f.read()
 
 
-setup(name='lit',
+setup(name='solit',
       version='0.1',
       description='The Logstash Integration Test framework',
       long_description=readme(),
       classifiers=[
       ],
-      url='http://github.com/fxdgear/lit',
+      url='http://github.com/elastic/solit',
       author='Nick Lang',
-      author_email='nick@nicklang.com',
-      license='MIT',
-      packages=['lit'],
+      author_email='nick.lang@elastic.co',
+      license='Apache v2',
+      packages=['solit'],
       install_requires=[
           "docker==2.5.1",
           "elasticsearch==5.4.0",
@@ -24,7 +24,7 @@ setup(name='lit',
           "pytest==3.2.1",
       ],
       tests_require=['pytest',],
-      scripts=['bin/lit'],
+      scripts=['bin/solit'],
       include_package_data=True,
       zip_safe=False
      )

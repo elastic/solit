@@ -3,11 +3,11 @@ import os
 import argparse
 
 import pytest
-import lit
+import solit
 
 
 if __name__ == "__main__":
-    testfile = os.path.join(os.path.dirname(lit.__file__), "test_logstash.py")
+    testfile = os.path.join(os.path.dirname(solit.__file__), "test_logstash.py")
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '-p', '--testpath',

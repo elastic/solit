@@ -93,13 +93,13 @@ all our tests.
 The first line is our test name, :code:`test_0001`.
 Then block is the information for our test. We need to specify the location of our
 
-1.:code:`input` - the mock data to be processed by logstash
-2.:code:`output` - the desired output we well use to verify the correctness of our test.
-3.:code:`query` - the query we will use to query the data out of Elasticsearch to verify the output.
-4.:code:`pipeline` - the relative path (to the logstash_tests.yml) to the logstash conf pipeline we want to test.
-5.:code:`output_conf` - the output conf we want logstash to use when indexing data into Elasticsearch.
-6.:code:`config` - the config file we want logstash to use.
-7.:code:`template` - the template we want Elasticsearch to use when this data get indexed into ES.
+1. :code:`input` - the mock data to be processed by logstash
+2. :code:`output` - the desired output we well use to verify the correctness of our test.
+3. :code:`query` - the query we will use to query the data out of Elasticsearch to verify the output.
+4. :code:`pipeline` - the relative path (to the logstash_tests.yml) to the logstash conf pipeline we want to test.
+5. :code:`output_conf` - the output conf we want logstash to use when indexing data into Elasticsearch.
+6. :code:`config` - the config file we want logstash to use.
+7. :code:`template` - the template we want Elasticsearch to use when this data get indexed into ES.
 
 Now our repository should look a little more like:
 

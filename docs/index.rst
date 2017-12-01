@@ -190,6 +190,7 @@ Our output file is a json file listing all the `hits` we expect to see:
             "type" : "message_type",
             "message" : "2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"
         }
+      ]
     }
 
 With these 3 files our tests can execute. The input will be fed into Logstash and processed

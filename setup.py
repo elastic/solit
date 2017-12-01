@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='solit',
-      version='0.1',
+      version='0.2',
       description='The Logstash Integration Test framework',
       long_description=readme(),
       classifiers=[

@@ -198,5 +198,32 @@ and finally indexed into Elasticsearch. After the logstash job has finished, `so
 query Elasticsearch for the indexed data and will compare the results it gets with the
 output we provided. If we have an exact match the test will pass otherwise the test will fail.
 
+Running your tests
+------------------
 
+Now we want to run our tests.
+
+First we need to setup the `.solit.yml` file.
+
+This file is needed for telling solit what docker images to use for logstash and elasticsearch.
+
+.. code-block:: yaml
+
+    elasticsearch: docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+    logstash: docker.elastic.co/logstash/logstash:5.6.1
+
+If you want to use your own docker containers you can. But I would recommend using
+the offical ones made by Elastic. This way all you need to do is change the version
+numbers to match the version of Elasticearch and Logstash that you use in production.
+
+Now we can run our tests::
+
+    solit
+
+This command will run all our tests. Be warned that the first time you run the tests
+`solit` has to download the docker images so it can take a while before the tests run.
+
+If you want to run only one test you can do so by specifying the test name::
+
+    solit --testname test_0001
 

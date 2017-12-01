@@ -78,7 +78,7 @@ Next we want to add our tests. I'm adding the logstash tests to the root of the 
 First we need to add a `logstash_tests.yml` file. This file holds all the information about
 all our tests.
 
-.. code_block:: yaml
+.. code-block:: yaml
 
     test_0001:
       input: test_0001/input.log
@@ -136,7 +136,7 @@ of dragons when going down this path. It can be difficult to get formatted corre
 
 A very simple input.log would look like this:
 
-.. code_block:: json
+.. code-block:: json
 
     {"message":"somemessage"}
 
@@ -144,7 +144,7 @@ Logstash would take this json_line and start processing it with your pipeline fi
 
 A more advanced message might look like this:
 
-.. code_block:: json
+.. code-block:: json
 
     {"type":"message_type","message":"2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"}
 
@@ -153,7 +153,7 @@ to process a message body like this.
 
 Now we want to write a query to get data out of Elasticsearch:
 
-.. code_block:: json
+.. code-block:: json
 
     {
         "sort": [
@@ -178,7 +178,7 @@ the results from our query match a desired output.
 
 Our output file is a json file listing all the `hits` we expect to see:
 
-.. code_block:: json
+.. code-block:: json
 
     {
       "hits" : [

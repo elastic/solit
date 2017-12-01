@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sys
 import argparse
 
 import pytest
@@ -36,4 +37,5 @@ if __name__ == "__main__":
     if args.testname:
         pytest_args.append('--testname={}'.format(args.testname))
 
-    pytest.main(pytest_args)
+    result_code = pytest.main(pytest_args)
+    sys.exit(result_code)

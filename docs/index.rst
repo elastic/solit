@@ -203,7 +203,7 @@ Running your tests
 
 Now we want to run our tests.
 
-First we need to setup the `.solit.yml` file.
+First we need to setup the  :code:`.solit.yml` file.
 
 This file is needed for telling solit what docker images to use for logstash and elasticsearch.
 

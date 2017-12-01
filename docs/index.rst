@@ -26,9 +26,7 @@ Installation
 
 Easiest way is to install via pip:
 
-```
-pip install solit
-```
+`pip install solit`
 
 Install from source:
 
@@ -50,7 +48,7 @@ Setting up your Repository
 First thing, we should probably have our repository which holds our Logstash and Elasticsearch
 configs setup logically:
 
-::
+.. ::
     repository_root
     ├── README.md
     ├── elasticsearch
@@ -80,7 +78,8 @@ Next we want to add our tests. I'm adding the logstash tests to the root of the 
 First we need to add a `logstash_tests.yml` file. This file holds all the information about
 all our tests.
 
-::
+.. code_block:: yaml
+
     test_0001:
       input: test_0001/input.log
       output: test_0001/output.txt
@@ -103,7 +102,8 @@ Then block is the information for our test. We need to specify the location of o
 
 Now our repository should look a little more like:
 
-::
+.. ::
+
     repository_root
     ├── README.md
     ├── elasticsearch
@@ -136,14 +136,16 @@ of dragons when going down this path. It can be difficult to get formatted corre
 
 A very simple input.log would look like this:
 
-::
+.. code_block:: json
+
     {"message":"somemessage"}
 
 Logstash would take this json_line and start processing it with your pipeline filter.
 
 A more advanced message might look like this:
 
-::
+.. code_block:: json
+
     {"type":"message_type","message":"2017-08-24 13:49:29.2810|29587|DEBUG|Loq.Controllers.Attendant|8592|107|Entry attempt is Valid for guest e1cd6d63-8ce7-4c7b-85fa-4718c15d5a0d@example.com||"}
 
 Here we have a `type` and a `message`. And our logstash config is specifically designed
@@ -151,7 +153,8 @@ to process a message body like this.
 
 Now we want to write a query to get data out of Elasticsearch:
 
-::
+.. code_block:: json
+
     {
         "sort": [
             {"@timestamp": {"order": "asc"}}
@@ -175,7 +178,8 @@ the results from our query match a desired output.
 
 Our output file is a json file listing all the `hits` we expect to see:
 
-::
+.. code_block:: json
+
     {
       "hits" : [
         {

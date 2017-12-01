@@ -27,7 +27,6 @@ Easiest way is to install via pip:
 ```
 pip install solit
 ```
-> Note: Not avail from PyPI yet, so only install from source.
 
 Install from source:
 
@@ -50,5 +49,7 @@ From the `examples` directory just run `solit`
 doesn't properly clean up. And the tests are failing to run. Just run `docker system prune`
 to have Docker cleanup any lingering containers, lingering networks, etc...
 
+# Examples
 
+For example usage and integration with TravisCI please see: https://github.com/fxdgear/solit-examples
 
